@@ -6,7 +6,7 @@ pd = PyDecipher(asl_encoding)
 
 stdscr = curses.initscr()
 ui = curses.newwin(3, 17, 1, 0)
-res = curses.newwin(20, 20, 4, 0)
+res = curses.newwin(40, 40, 4, 0)
 
 curses.noecho()
 curses.start_color()
@@ -35,10 +35,12 @@ while 1:
         valColor = 10
 
     # print result string
+    ui.clear();
     ui.addstr(0, 0, "00000000 00000000", curses.color_pair(60))
     ui.addstr(0, 0, uiString, curses.color_pair(valColor))
     ui.refresh()
 
+    res.clear();
     res.addstr(0, 0, pd.decipher(uiString))
     res.refresh()
 

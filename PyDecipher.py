@@ -30,14 +30,22 @@ class PyDecipher:
                     res += "unknown \n"
             else:
                 if cPart != None:
-                    code = cPart
+                    code = binaryStr
                     for m in self.code[cPart].modifiers:
-                        res += "| " + m.name + ": "
+                        res += "| {}: ".format(m.name)
                         if code[:m.size] in m.values.keys():
                             res += m.values[code[:m.size]] + "\n"
                         else:
                             res += "unknown \n"
                         code = code[m.size:]
+        if not self.isValid(string):
+            if self.isMissingBits(string):
+                res += "err: string is not complete\n"
+            if self.isMissingBytes(string):
+                res += "err: string has no ending byte\n"
+            if self.tooManyBytes(string):
+                res += "err: string has an extra byte\n"
+
         return res
 
 
