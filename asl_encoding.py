@@ -15,23 +15,32 @@ faceModifiers = [
     ModifierBlock("EyeBrow", 2, ["normal", "raised", "together"])
 ]
 
+handShapeModifiers = [
+    ModifierBlock("Handshape", 8, [
+        "v-handshape", "bent-v", "closed-hand", "flat-hand", "curved-hand",
+        "claw-hand", "cocked-index", "open-hand", "1-hand", "bent-hand"])
+]
+
+handLocationModifiers = [
+    ModifierBlock("Location", 8, [
+        "neutral-space", "forehead/brow", "mouth/chin", "eyes/nose", "left/temple",
+        "right-temple", "left-cheek/ear", "right-cheek/ear", "face/head", 
+        "shoulder-left", "manubrium", "shoulder-right",
+        "torso-left", "torso-center", "torso-right",
+        "waist-left", "waist-center", "waist-right",
+        "upper-arm", "elbow", "forearm", "back-of-wrist", "inside-of-wrist", "hand"])
+]
+
 fingerModifiers = [
     ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
-    ModifierBlock("Bend",   2, ["open", "half", "closed"]),
-    ModifierBlock("knuckleBend", 1, ["open", "bent"])
+    ModifierBlock("Bend",   2, ["open", "half", "closed", "to-thumb"]),
+    ModifierBlock("KnuckleBend", 1, ["open", "bent"])
+    ModifierBlock("Spread", 1, ["no", "yes"])
 ]
 
 thumbModifiers = [
     ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
-    ModifierBlock("Bend",   2, ["open", "half", "closed", "to-finger"]),
-    ModifierBlock("WithIndex", 1, ["no", "yes"]),
-    ModifierBlock("WithMiddle", 1, ["no", "yes"]),
-    ModifierBlock("WithRing", 1, ["no", "yes"]),
-    ModifierBlock("WithPinky", 1, ["no", "yes"]),
-]
-
-ballModifiers = [
-    ModifierBlock("wiggle",  2, ["none", "yaw", "pitch", "roll"]),
+    ModifierBlock("Bend",   3, ["open", "half", "closed", "to-finger", "to-palm", "to-web-1", "to-web-2"]),
 ]
 
 asl_encoding = []
