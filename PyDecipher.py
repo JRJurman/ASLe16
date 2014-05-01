@@ -9,6 +9,7 @@ class PyDecipher:
 
     def __init__(self, encoding):
         self.code = dict()
+        self.functions = dict()
         for e in encoding:
             self.code[e.identifier] = e
 
@@ -17,6 +18,11 @@ class PyDecipher:
         part = False
         res = ""
         cPart = None
+
+        # Add appropriate spaces if there are none
+        if (string.find(" ") == -1):
+            string = " ".join( i for i in re.findall("([01]{,8})",string) if i != "")
+
         for binaryStr in string.split(" "):
             part = not part
             if part:
@@ -47,6 +53,21 @@ class PyDecipher:
                 res += "err: string has an extra byte\n"
 
         return res
+
+
+    # register a function for a given PartName, PartMod, or ModifierValue
+    def register(func, PartName=None, PartModifier=None, ModifierValue=None):
+
+        """
+        if PartName == None:
+            self.functions = lambda pn, pm, mv: func(pn, pm, mv)
+        if PartModifier == None:
+            self.functions[PartName] = lambda pm, mv: func(pm, mv)
+        if ModifierValue == None:
+            self.functions[PartName] = lambda mv: func(pm, mv)
+        """
+
+                
 
 
 

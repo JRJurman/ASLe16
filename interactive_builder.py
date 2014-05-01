@@ -35,7 +35,8 @@ while 1:
     res.clear();
 
     # print result string
-    splitUI = " ".join( i for i in re.findall("([01]{,8})",uiString) if i != "")
+    #splitUI = " ".join( i for i in re.findall("([01]{,8})",uiString) if i != "")
+    splitUI = uiString
 
     # set curses color
     if pd.isValid(splitUI):

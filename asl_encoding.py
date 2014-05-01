@@ -34,7 +34,7 @@ handLocationModifiers = [
 fingerModifiers = [
     ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
     ModifierBlock("Bend",   2, ["open", "half", "closed", "to-thumb"]),
-    ModifierBlock("KnuckleBend", 1, ["open", "bent"])
+    ModifierBlock("KnuckleBend", 1, ["open", "bent"]),
     ModifierBlock("Spread", 1, ["no", "yes"])
 ]
 
@@ -44,6 +44,7 @@ thumbModifiers = [
 ]
 
 asl_encoding = []
+class ASL_PART: pass
 
 key = lambda x:"0"*(7-len(bin(x)[2:])) + bin(x)[2:]
 counter = 0
@@ -59,5 +60,8 @@ for p in [ ("Face", faceModifiers),
            ("PinkyR", fingerModifiers),
            ("PinkyL", fingerModifiers)
            ]:
-    asl_encoding.append( PartBlock(p[0], key(counter), *p[1]) )
+    part = PartBlock(p[0], key(counter), *p[1])
+    asl_encoding.append( part )
+    # sets PartBlock to PARTNAME
+    setattr(ASL_PART, p[0].upper(), part)
     counter += 1
