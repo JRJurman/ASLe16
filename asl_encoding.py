@@ -15,17 +15,40 @@ faceModifiers = [
     ModifierBlock("EyeBrow", 2, ["normal", "raised", "together"])
 ]
 
-trackingModifier = [
+fingerModifiers = [
+    ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
+    ModifierBlock("Bend",   2, ["open", "half", "closed"]),
+    ModifierBlock("knuckleBend", 1, ["open", "bent"])
 ]
 
-pivotModifiers = [
-    ModifierBlock("wiggle", 2, ["none", "with-the-joint", "against-the-joint"])
+thumbModifiers = [
+    ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
+    ModifierBlock("Bend",   2, ["open", "half", "closed", "to-finger"]),
+    ModifierBlock("WithIndex", 1, ["no", "yes"]),
+    ModifierBlock("WithMiddle", 1, ["no", "yes"]),
+    ModifierBlock("WithRing", 1, ["no", "yes"]),
+    ModifierBlock("WithPinky", 1, ["no", "yes"]),
 ]
 
 ballModifiers = [
-    ModifierBlock("wiggle",  2, ["none", "x", "y", "z"]),
+    ModifierBlock("wiggle",  2, ["none", "yaw", "pitch", "roll"]),
 ]
 
-asl_encoding = [
-    PartBlock("Face", "0000000", *faceModifiers)
-]
+asl_encoding = []
+
+key = lambda x:"0"*(7-len(bin(x)[2:])) + bin(x)[2:]
+counter = 0
+for p in [ ("Face", faceModifiers),
+           ("ThumbL", thumbModifiers),
+           ("ThumbR", thumbModifiers),
+           ("IndexL", fingerModifiers),
+           ("IndexR", fingerModifiers),
+           ("MiddleR", fingerModifiers),
+           ("MiddleL", fingerModifiers),
+           ("RingR", fingerModifiers),
+           ("RingL", fingerModifiers),
+           ("PinkyR", fingerModifiers),
+           ("PinkyL", fingerModifiers)
+           ]:
+    asl_encoding.append( PartBlock(p[0], key(counter), *p[1]) )
+    counter += 1
