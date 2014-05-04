@@ -14,9 +14,13 @@ class PyDecipher:
             self.code[e.identifier] = e
 
     # Convert binary string to english descriptors
+    # Returns a List of PartHashes including:
+    #       Name : PartName
+    #       Modifiers : A list of tuples, that are:
+    #               (Modifier Name, Modifier Value)
     def decipher(self, string):
         part = False
-        res = ""
+        res = []
         cPart = None
 
         # Add appropriate spaces if there are none
@@ -26,32 +30,25 @@ class PyDecipher:
         for binaryStr in string.split(" "):
             part = not part
             if part:
-                res += "Part: "
                 cPart = None
                 partKey = binaryStr[1:]
                 if partKey in self.code.keys():
-                    res += self.code[partKey].name + "\n"
+                    res.append( {"name":self.code[partKey].name, "modifiers":[]} )
                     cPart = partKey
                 else:
-                    res += "unknown \n"
+                    res.append( {"name":"unknown", "modifiers":[]} )
             else:
                 if cPart != None:
                     code = binaryStr
                     for m in self.code[cPart].modifiers:
-                        res += "| {}: ".format(m.name)
+                        #res += "| {}: ".format(m.name)
                         if code[:m.size] in m.values.keys():
-                            res += m.values[code[:m.size]] + "\n"
+                            #res += m.values[code[:m.size]] + "\n"
+                            res[len(res)-1]["modifiers"].append( (m.name, m.values[code[:m.size]]) )
                         else:
-                            res += "unknown \n"
+                            #res += "unknown \n"
+                            res[len(res)-1]["modifiers"].append( (m.name, "unknown") )
                         code = code[m.size:]
-        if not self.isValid(string):
-            if self.isMissingBits(string):
-                res += "err: string is not complete\n"
-            if self.isMissingBytes(string):
-                res += "err: string has no ending byte\n"
-            if self.tooManyBytes(string):
-                res += "err: string has an extra byte\n"
-
         return res
 
 
