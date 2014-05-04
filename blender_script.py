@@ -11,4 +11,5 @@ for i in range(10):
 bpy.ops.poselib.apply_pose(pose_index=2)
 # wrist turn
 bpy.data.armatures["Armature"]["wrist_roll_R"] = -3.0
+bpy.data.armatures["Armature"]["wrist_yaw_R"] = -1.0
 
