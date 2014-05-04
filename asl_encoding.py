@@ -48,20 +48,30 @@ class ASL_PART: pass
 
 key = lambda x:"0"*(7-len(bin(x)[2:])) + bin(x)[2:]
 counter = 0
-for p in [ ("Face", faceModifiers),
-           ("ThumbL", thumbModifiers),
-           ("ThumbR", thumbModifiers),
-           ("IndexL", fingerModifiers),
-           ("IndexR", fingerModifiers),
-           ("MiddleR", fingerModifiers),
-           ("MiddleL", fingerModifiers),
-           ("RingR", fingerModifiers),
-           ("RingL", fingerModifiers),
-           ("PinkyR", fingerModifiers),
-           ("PinkyL", fingerModifiers)
-           ]:
+parts = []
+parts.append( ("Face", faceModifiers) )
+for p in [
+            ("Thumb", thumbModifiers),
+            ("Index", fingerModifiers),
+            ("Middle", fingerModifiers),
+            ("Ring", fingerModifiers),
+            ("Pinky", fingerModifiers),
+            ("HandLocation", handLocationModifiers),
+            ("HandShape", handShapeModifiers)
+         ]:
+    parts.append( ("Left"+p[0], p[1]) )
+    parts.append( ("Right"+p[0], p[1]) )
+
+
+for p in parts:
     part = PartBlock(p[0], key(counter), *p[1])
     asl_encoding.append( part )
     # sets PartBlock to PARTNAME
     setattr(ASL_PART, p[0].upper(), part)
     counter += 1
+
+if __name__ == '__main__':
+    for part in asl_encoding:
+        print( "{}".format(part.name) )
+        for m in part.modifiers:
+            print( "| {} : {}".format(m.name, list(m.values.values())) )
