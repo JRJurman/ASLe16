@@ -53,19 +53,41 @@ class PyDecipher:
 
 
     # register a function for a given PartName, PartMod, or ModifierValue
-    def register(func, PartName=None, PartModifier=None, ModifierValue=None):
+    def register(self, func, PartName=None, PartModifier=None, ModifierValue=None):
 
-        """
-        if PartName == None:
-            self.functions = lambda pn, pm, mv: func(pn, pm, mv)
-        if PartModifier == None:
-            self.functions[PartName] = lambda pm, mv: func(pm, mv)
-        if ModifierValue == None:
-            self.functions[PartName] = lambda mv: func(pm, mv)
-        """
+        if (PartName == None) and (PartModifier == None) and (ModifierValue == None):
+            self.functions[()] = lambda pn, pm, mv: func(pn, pm, mv)
 
-                
+        elif (PartModifier == None) and (ModifierValue == None):
+            self.functions[(PartName)] = lambda pm, mv: func(pm, mv)
 
+        elif (ModifierValue == None):
+            self.functions[(PartName, PartModifier)] = lambda mv: func(mv)
+
+        elif (ModifierValue != None):
+            self.functions[(PartName, PartModifier, ModifierValue)] = lambda : func()
+
+    # Calls Registered Functions on PyDecipher Parts
+    def callFunctions(self, string):
+        for p in self.decipher(string):
+            for m in p["modifiers"]:
+
+                valueKey = (p["name"], m[0], m[1])
+                modifierKey = (p["name"], m[0])
+                partKey = (p["name"])
+                noKey = ()
+
+                if ( valueKey in self.functions.keys() ):
+                    self.functions[valueKey]()
+                elif ( modifierKey in self.functions ):
+                    self.functions[modifierKey](m[1])
+                elif ( partKey in self.functions ):
+                    self.functions[partKey](m[0], m[1])
+                elif ( noKey in self.functions ):
+                    self.functions[noKey](p["name"], m[0], m[1])
+                else:
+                    # No Key matches current Part-Modifier-Value
+                    pass
 
 
     # Do we have blocks of 8?
