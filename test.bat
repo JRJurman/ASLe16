@@ -1,0 +1,1 @@
+"C:\Program Files\Blender Foundation\Blender\blender.exe" -b "C:\Users\Ethan\Programs\ASL-Encoder\ASL_Model.blend" -P "C:\Users\Ethan\Programs\ASL-Encoder\blender_script.py" -o "C:\Users\Ethan\Programs\ASL-Encoder\asl" -F JPEG -x 1 -f 1
