@@ -10,7 +10,7 @@ class PyDecipher:
     def __init__(self, encoding):
         self.code = dict()
         self.functions = dict()
-        for e in encoding:
+        for e in encoding.values():
             self.code[e.identifier] = e
 
     # Convert binary string to english descriptors
