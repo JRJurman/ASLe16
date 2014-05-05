@@ -23,7 +23,7 @@ handShapeModifiers = [
 
 handLocationModifiers = [
     ModifierBlock("Location", 8, [
-        "neutral-space", "forehead/brow", "mouth/chin", "eyes/nose", "left/temple",
+        "neutral-space", "forehead/brow", "mouth/chin", "eyes/nose", "left-temple",
         "right-temple", "left-cheek/ear", "right-cheek/ear", "face/head", 
         "shoulder-left", "manubrium", "shoulder-right",
         "torso-left", "torso-center", "torso-right",
