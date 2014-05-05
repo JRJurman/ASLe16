@@ -45,7 +45,7 @@ def leftHandLocation( position ):
 			armature["part_location_L"] = 0
 		elif position == "back-of-wrist":
 			armature["target_forearm_L"] = 1
-			armature["part_location_L"] = 1
+			armature["part_location_L"] = 0
 		elif position == "inside-of-wrist": # TOOD : get wrist rot / loc
 			armature["target_forearm_L"] = 1
 			armature["part_location_L"] = 1
@@ -82,7 +82,7 @@ def rightHandLocation( position ):
 			armature["part_location_R"] = 0
 		elif position == "back-of-wrist":
 			armature["target_forearm_R"] = 1
-			armature["part_location_R"] = 1
+			armature["part_location_R"] = 0
 		elif position == "inside-of-wrist": # TOOD : get wrist rot / loc
 			armature["target_forearm_R"] = 1
 			armature["part_location_R"] = 1
