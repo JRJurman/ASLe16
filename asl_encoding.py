@@ -36,6 +36,7 @@ fingerModifiers = [
     ModifierBlock("Bend",   2, ["open", "half", "closed", "to-thumb"]),
     ModifierBlock("KnuckleBend", 1, ["open", "bent"]),
     ModifierBlock("Spread", 1, ["no", "yes"])
+    ModifierBlock("AtTarget", 1, ["no", "yes"])
 ]
 
 thumbModifiers = [
@@ -43,7 +44,7 @@ thumbModifiers = [
     ModifierBlock("Bend",   3, ["open", "half", "closed", "to-finger", "to-palm", "to-web-1", "to-web-2"]),
 ]
 
-asl_encoding = []
+asl_encoding = {}
 class ASL_PART: pass
 
 key = lambda x:"0"*(7-len(bin(x)[2:])) + bin(x)[2:]
@@ -65,13 +66,13 @@ for p in [
 
 for p in parts:
     part = PartBlock(p[0], key(counter), *p[1])
-    asl_encoding.append( part )
+    asl_encoding[p[0]] = part
     # sets PartBlock to PARTNAME
     setattr(ASL_PART, p[0].upper(), part)
     counter += 1
 
 if __name__ == '__main__':
-    for part in asl_encoding:
+    for part in sorted(asl_encoding.values(), key=lambda x: x.name ):
         print( "{}".format(part.name) )
         for m in part.modifiers:
             print( "| {} : {}".format(m.name, list(m.values.values())) )
