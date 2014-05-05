@@ -32,16 +32,18 @@ handLocationModifiers = [
 ]
 
 fingerModifiers = [
-    ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
-    ModifierBlock("Bend",   2, ["open", "half", "closed", "to-thumb"]),
+    ModifierBlock("Wiggle",      2, ["none", "with-the-joint", "against-the-joint"]),
+    ModifierBlock("Bend",        2, ["open", "half", "closed", "to-thumb"]),
     ModifierBlock("KnuckleBend", 1, ["open", "bent"]),
-    ModifierBlock("Spread", 1, ["no", "yes"]),
-    ModifierBlock("AtTarget", 1, ["no", "yes"])
+    ModifierBlock("Spread",      1, ["no", "yes"]),
+    ModifierBlock("AtTarget",    1, ["no", "yes"]),
+    ModifierBlock("Null",        1, [""])
 ]
 
 thumbModifiers = [
     ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
     ModifierBlock("Bend",   3, ["open", "half", "closed", "to-finger", "to-palm", "to-web-1", "to-web-2"]),
+    ModifierBlock("Null",   3, [""])
 ]
 
 asl_encoding = {}
