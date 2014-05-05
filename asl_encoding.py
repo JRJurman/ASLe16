@@ -51,7 +51,7 @@ wristModifiers = [
 	ModifierBlock("Wiggle", 2, ["none", "roll", "pitch", "yaw"]),
 	ModifierBlock("Roll", 2, ["none","toward","tilted","away"]),
 	ModifierBlock("Pitch", 2, ["none","toward","tilted","away"]),
-	ModifierBlock("Yaw", 2, ["none","toward","tilted","away"]),
+	ModifierBlock("Yaw", 2, ["none","toward","tilted","away"])
 ]
 
 asl_encoding = {}
