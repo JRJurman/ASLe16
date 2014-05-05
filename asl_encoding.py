@@ -35,7 +35,7 @@ fingerModifiers = [
     ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
     ModifierBlock("Bend",   2, ["open", "half", "closed", "to-thumb"]),
     ModifierBlock("KnuckleBend", 1, ["open", "bent"]),
-    ModifierBlock("Spread", 1, ["no", "yes"])
+    ModifierBlock("Spread", 1, ["no", "yes"]),
     ModifierBlock("AtTarget", 1, ["no", "yes"])
 ]
 
