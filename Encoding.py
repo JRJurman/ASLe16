@@ -36,9 +36,11 @@ class ModifierBlock:
         self.name = name
         self.size = size
         self.values = {}
+        self.reverseLookup = {}
 
         c = 0
         for v in values:
             key = "0"*(size - len(bin(c)[2:])) + bin(c)[2:]
             self.values[key] = v
+            self.reverseLookup[v] = key
             c += 1
