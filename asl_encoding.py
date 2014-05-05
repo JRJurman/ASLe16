@@ -43,7 +43,8 @@ fingerModifiers = [
 thumbModifiers = [
     ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
     ModifierBlock("Bend",   3, ["open", "half", "closed", "to-finger", "to-palm", "to-web-1", "to-web-2"]),
-    ModifierBlock("Null",   3, [""])
+    ModifierBlock("AtTarget",    1, ["no", "yes"]),
+    ModifierBlock("Null",   2, [""])
 ]
 
 asl_encoding = {}
