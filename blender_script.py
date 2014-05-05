@@ -1,3 +1,4 @@
+
 import bpy
 # identifiers 
 rig = bpy.data.objects['metarig']
@@ -17,6 +18,7 @@ bpy.ops.poselib.apply_pose(pose_index=2)
 bpy.data.armatures["Armature"]["wrist_roll_R"] = -3.0
 bpy.data.armatures["Armature"]["wrist_yaw_R"] = -1.0
 
+"""
 # modifying part via pose library
 ##################################################
 
@@ -43,4 +45,26 @@ bpy.ops.poselib.apply_pose(pose_index=0)
 ##################################################
 
 # wrist turn
-bpy.data.armatures["Armature"]["wrist_roll_R"] = -3.0
+armature["wrist_roll_R"] = -3.0
+"""
+
+# Encoding
+from PyDecipher import PyDecipher
+from asl_encoding import asl_encoding
+
+pd = PyDecipher(asl_encoding)
+def derp(t, s, u):
+	print("derp : {} {} {}".format(t, s, u))
+def herp(t, s):
+	print("herp func : {} {}".format(t,s))
+def foo(v):
+	print("foo function : {}".format(v))
+def bar():
+	print("bar function - is normal")
+pd.register(foo, "Face", "EyeBrow")
+pd.register(bar, "Face", "EyeBrow", "normal")
+pd.register(herp, "Face")
+pd.register(derp)
+pd.callFunctions("00000000 11111111")
+pd.callFunctions("00000000 00000000")
+pd.callFunctions("00000001 00000000")
