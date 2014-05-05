@@ -160,13 +160,14 @@ def finger( partName, modifierName, value ):
 	# check if we are dealing with a finger
 	if partName[5:] in "".join(["Index","Middle","Ring","Pinky"]):
 		if modifierName == "Spread":
-			pSpreadName = "palm." + {"Index":"01", "Middle":"02", "Ring":"03", "Pinky":"04"}[partName.split("Left")[-1].split("Right")[-1]] + "L" if "Left" in partName else "R"
+			pSpreadName = "palm." + {"Index":"01", "Middle":"02", "Ring":"03", "Pinky":"04"}[partName.split("Left")[-1].split("Right")[-1]] + ".L" if "Left" in partName else ".R"
 			armature.bones[pSpreadName].select = True if value == "yes" else False
 			rig.pose_library = bpy.data.actions['FingerPoses']
 			bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( "spread" ))
 		if modifierName == "AtTarget":
 			pTargetName = "L_" if "Left" in partName else "R_"
 			pTargetName += partName.split("Left")[-1].split("Right")[-1].lower() + "_target"
+			print(pTargetName)
 			armature.bones[pTargetName] = 1 if value == "yes" else 0
 		if modifierName == "Bend":
 			rig.pose_library = bpy.data.actions['FingerPoses']
