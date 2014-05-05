@@ -16,7 +16,7 @@ pd = PyDecipher(asl_encoding)
 
 # Run tk window
 top = tkinter.Tk()
-top.title("Interactive Builder")
+top.title("ASLe16 Interactive Builder")
 
 # Colors
 fgColor = "navajo white"
