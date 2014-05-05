@@ -154,6 +154,60 @@ def leftThumbTarget( value ):
 def rightThumbTarget( value ):
 	armature["R_thumb_target"] = True if value == "yes" else False
 
+def leftWrist( modifierName, value ):
+	mod = 0
+	if modifierName == "Roll":
+		if value == "toward":
+			mod = 1
+		elif value == "tilted":
+			mod = -1
+		elif value == "away":
+			mod = -2
+		armature["wrist_roll_L"] = mod
+	if modifierName == "Pitch":
+		if value == "toward":
+			mod = 1
+		elif value == "tilted":
+			mod = -1
+		elif value == "away":
+			mod = -2
+		armature["wrist_pitch_L"] = mod
+	if modifierName == "Yaw":
+		if value == "toward":
+			mod = 1
+		elif value == "tilted":
+			mod = -1
+		elif value == "away":
+			mod = -2
+		armature["wrist_yaw_L"] = mod
+
+def rightWrist( modifierName, value ):
+	mod = 0
+	if modifierName == "Roll":
+		if value == "toward":
+			mod = 1
+		elif value == "tilted":
+			mod = -1
+		elif value == "away":
+			mod = -2
+		armature["wrist_roll_R"] = mod
+	if modifierName == "Pitch":
+		if value == "toward":
+			mod = 1
+		elif value == "tilted":
+			mod = -1
+		elif value == "away":
+			mod = -2
+		armature["wrist_pitch_R"] = mod
+	if modifierName == "Yaw":
+		if value == "toward":
+			mod = 1
+		elif value == "tilted":
+			mod = -1
+		elif value == "away":
+			mod = -2
+		armature["wrist_yaw_R"] = mod
+	
 def finger( partName, modifierName, value ):
 	# check if we are dealing with a finger
 	if partName[5:] in "".join(["Index","Middle","Ring","Pinky"]):
@@ -196,6 +250,8 @@ pd.register(leftThumb, "LeftThumb", "Bend")
 pd.register(rightThumb, "RightThumb", "Bend")
 pd.register(leftThumbTarget, "LeftThumb", "AtTarget")
 pd.register(rightThumbTarget, "LeftThumb", "AtTarget")
+pd.register(leftWrist, "LeftWrist")
+pd.register(rightWrist, "RightWrist")
 pd.register(finger)
 
 pd.callFunctions(open("tmp/encode.txt").read())

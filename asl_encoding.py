@@ -47,6 +47,13 @@ thumbModifiers = [
     ModifierBlock("Null",   2, [""])
 ]
 
+wristModifiers = [
+	ModifierBlock("Wiggle", 2, ["none", "roll", "pitch", "yaw"]),
+	ModifierBlock("Roll", 2, ["none","toward","tilted","away"]),
+	ModifierBlock("Pitch", 2, ["none","toward","tilted","away"]),
+	ModifierBlock("Yaw", 2, ["none","toward","tilted","away"]),
+]
+
 asl_encoding = {}
 class ASL_PART: pass
 
@@ -61,7 +68,8 @@ for p in [
             ("Ring", fingerModifiers),
             ("Pinky", fingerModifiers),
             ("HandLocation", handLocationModifiers),
-            ("HandShape", handShapeModifiers)
+            ("HandShape", handShapeModifiers),
+			("Wrist", wristModifiers)
          ]:
     parts.append( ("Left"+p[0], p[1]) )
     parts.append( ("Right"+p[0], p[1]) )
