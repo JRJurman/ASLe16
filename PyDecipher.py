@@ -55,11 +55,11 @@ class PyDecipher:
 
 
     # afterRegister - function that gets called after every register call
-    def afterRegister(self, func):
+    def setAfterRegister(self, func):
         self.afterRegister = func
 
     # beforeRegister - function that gets called after before register call
-    def beforeRegister(self, func):
+    def setBeforeRegister(self, func):
         self.beforeRegister = func
 
     # register a function for a given PartName, PartMod, or ModifierValue

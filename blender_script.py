@@ -20,6 +20,10 @@ armature["Armature"]["wrist_roll_R"] = -3.0
 armature["Armature"]["wrist_yaw_R"] = -1.0
 """
 
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) ))
+
 # Encoding
 from PyDecipher import PyDecipher
 from asl_encoding import asl_encoding
@@ -31,7 +35,7 @@ def leftHandLocation( position ):
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['Locations']
 	if position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	else:
 		if position == "waist-center":
 			armature["target_chest_L"] = 1
@@ -68,7 +72,7 @@ def rightHandLocation( position ):
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['Locations']
 	if position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	else:
 		if position == "waist-center":
 			armature["target_chest_R"] = 1
@@ -101,14 +105,15 @@ def rightHandLocation( position ):
 			print("INVALID VALUE func rightHandLocation")
 		
 def leftHandShape( position ):
+	print("func leftHandShape")
 	for i in range(0,5):
 		rig.pose.bone_groups.active_index = i
 		bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['HandShapes']
 	if position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	else:
-		print("INVALID VALUE func leftHandShape")
+        	print("INVALID VALUE func leftHandShape: {}".format(position))
 
 def rightHandShape( position ):
 	for i in range(5,10):
@@ -116,7 +121,7 @@ def rightHandShape( position ):
 		bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['HandShapes']
 	if position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	else:
 		print("INVALID VALUE func rightHandShape")
 		
@@ -125,10 +130,10 @@ def leftThumb( bend ):
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['ThumbPoses']
 	if position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
-	rig.pose_library = bpy.data.actions['FingerPoses']
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	elif position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
+		rig.pose_library = bpy.data.actions['FingerPoses']
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	else:
 		print("INVALID VALUE func leftThumb")
 		
@@ -137,10 +142,10 @@ def rightThumb( bend ):
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['ThumbPoses']
 	if position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
-	rig.pose_library = bpy.data.actions['FingerPoses']
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	elif position in rig.pose_library.pose_markers.keys():
-		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position )
+		rig.pose_library = bpy.data.actions['FingerPoses']
+		bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( position ))
 	else:
 		print("INVALID VALUE func rightThumb")
 		
@@ -157,29 +162,30 @@ def finger( partName, modifierName, value ):
 			pSpreadName = "palm." + {"Index":"01", "Middle":"02", "Ring":"03", "Pinky":"04"}[partName.split("Left")[-1].split("Right")[-1]] + "L" if "Left" in partName else "R"
 			armature.bones[pSpreadName].select = True if value == "yes" else False
 			rig.pose_library = bpy.data.actions['FingerPoses']
-			bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( "spread" )
+			bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( "spread" ))
 		if modifierName == "AtTarget":
-			pTargetName = "L_" if "Left" in partName else "R_" + partName.split("Left")[-1].split("Right")[-1]].lower() + "_target"
+			pTargetName = "L_" if "Left" in partName else "R_"
+			pTargetName += partName.split("Left")[-1].split("Right")[-1].lower() + "_target"
 			armature.bones[pTargetName] = 1 if value == "yes" else 0
 		if modifierName == "Bend":
 			rig.pose_library = bpy.data.actions['FingerPoses']
 			for i in range(1,4):
-				pBendName = "f_" + partName.split("Left")[-1].split("Right")[-1]].lower() + ".0{}.".format(i) + "L" if "Left" in partName else "R"
+				pBendName = "f_" + partName.split("Left")[-1].split("Right")[-1].lower() + ".0{}.".format(i) + "L" if "Left" in partName else "R"
 				armature.bones[pBendName].select = True
 			if value in rig.pose_library.pose_markers.keys():
-				bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( value )
-		if modifierName == "KnuckleBend"
+				bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( value ))
+		if modifierName == "KnuckleBend":
 			rig.pose_library = bpy.data.actions['FingerPoses']
 			for i in range(2,4):
-				pBendName = "f_" + partName.split("Left")[-1].split("Right")[-1]].lower() + ".0{}.".format(i) + "L" if "Left" in partName else "R"
+				pBendName = "f_" + partName.split("Left")[-1].split("Right")[-1].lower() + ".0{}.".format(i) + "L" if "Left" in partName else "R"
 				armature.bones[pBendName].select = True
 			if value == "bent":
-				bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( value )
+				bpy.ops.poselib.apply_pose(rig.pose_library.pose_markers.keys().index( value ))
 
 def before():
 	bpy.ops.pose.select_all(action='DESELECT') # removes all selections
 	
-pd.beforeRegister(before)
+pd.setBeforeRegister(before)
 pd.register(leftHandLocation, "LeftHandLocation", "Location")
 pd.register(rightHandLocation, "RightHandLocation", "Location")
 pd.register(leftHandShape, "LeftHandShape", "Handshape")
@@ -190,4 +196,4 @@ pd.register(leftThumbTarget, "LeftThumb", "AtTarget")
 pd.register(rightThumbTarget, "LeftThumb", "AtTarget")
 pd.register(finger)
 
-pd.callFunctions(File("tmp/encode.txt").read())
+pd.callFunctions(open("tmp/encode.txt").read())
