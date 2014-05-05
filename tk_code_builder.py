@@ -11,13 +11,6 @@ import re
 # OS Libraries -- to do system calls
 import subprocess, os
 
-# Create a defualt render
-if ( os.name == "nt" ): #WINDOWS SYSTEM
-    pass
-
-elif ( os.name == "posix" ): #MACOSX/LINUX/CYGWIN
-    pass
-
 # Initialize PyDecipher object
 pd = PyDecipher(asl_encoding)
 
@@ -47,6 +40,9 @@ dropDownFields.pack( side = tkinter.TOP )
 # RENDER FRAME
 renderFrame = tkinter.Frame( top, bg=bg2Color )
 renderFrame.pack( side = tkinter.RIGHT )
+
+renderLabel = tkinter.Label( renderFrame )
+renderLabel.pack()
 
 # Preparing Lists
 top.buildingBlocks = []
@@ -100,6 +96,8 @@ def setBlock(index, partName):
 def render(event):
     buildString = ""
     pCount = len(top.buildingBlocks)-1
+
+    # build binary string for each part
     for p in top.buildingBlocks:
         if pCount != 0:
             buildString += "1"
@@ -115,11 +113,31 @@ def render(event):
             m = asl_encoding[partName].modifiers[mi]
             mId = m.reverseLookup[p["ModifiersStringVar"][mi].get()]
             buildString += mId
+        buildString += " "
 
+    # Update the binary Text Field
     binaryField.config( state = tkinter.NORMAL )
     binaryField.delete( "1.0", tkinter.END )
     binaryField.insert( "1.0", buildString )
     binaryField.config( state = tkinter.DISABLED )
+
+    # Write to file
+    f = open("tmp\\encode.txt", "w")
+    f.write(buildString)
+    f.close()
+
+    # Render Picture
+    if ( os.name == "nt" ): #WINDOWS SYSTEM
+        subprocess.call("asl_render.bat")
+        subprocess.call("asl_convert.bat")
+
+    elif ( os.name == "posix" ): #MACOSX/LINUX/CYGWIN
+        pass
+
+    render = tkinter.PhotoImage(file="tmp\\asl0001.gif")
+    renderLabel.render = render
+    renderLabel.config( image=render )
+
 
 newBlock()
 
