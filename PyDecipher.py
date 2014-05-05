@@ -9,6 +9,8 @@ class PyDecipher:
 
     def __init__(self, encoding):
         self.code = dict()
+        self.afterRegister = None
+        self.beforeRegister = None
         self.functions = dict()
         for e in encoding.values():
             self.code[e.identifier] = e
@@ -52,6 +54,14 @@ class PyDecipher:
         return res
 
 
+    # afterRegister - function that gets called after every register call
+    def afterRegister(self, func):
+        self.afterRegister = func
+
+    # beforeRegister - function that gets called after before register call
+    def beforeRegister(self, func):
+        self.beforeRegister = func
+
     # register a function for a given PartName, PartMod, or ModifierValue
     def register(self, func, PartName=None, PartModifier=None, ModifierValue=None):
 
@@ -77,6 +87,8 @@ class PyDecipher:
                 partKey = (p["name"])
                 noKey = ()
 
+                if self.beforeRegister != None:
+                    self.beforeRegister()
                 if ( valueKey in self.functions.keys() ):
                     self.functions[valueKey]()
                 elif ( modifierKey in self.functions ):
@@ -88,6 +100,8 @@ class PyDecipher:
                 else:
                     # No Key matches current Part-Modifier-Value
                     pass
+                if self.afterRegister != None:
+                    self.afterRegister()
 
 
     # Do we have blocks of 8?
