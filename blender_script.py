@@ -168,7 +168,7 @@ def finger( partName, modifierName, value ):
 			pTargetName = "L_" if "Left" in partName else "R_"
 			pTargetName += partName.split("Left")[-1].split("Right")[-1].lower() + "_target"
 			print(pTargetName)
-			armature.bones[pTargetName] = 1 if value == "yes" else 0
+			armature[pTargetName] = 1 if value == "yes" else 0
 		if modifierName == "Bend":
 			rig.pose_library = bpy.data.actions['FingerPoses']
 			for i in range(1,4):
