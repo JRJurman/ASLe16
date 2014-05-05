@@ -1,5 +1,9 @@
 import bpy
+# identifiers 
 rig = bpy.data.objects['metarig']
+armature = bpy.data.armatures["Armature"]
+
+# neutral pose
 bpy.context.scene.objects.active = rig
 bpy.ops.object.mode_set(mode='POSE') # change blender context
 bpy.ops.pose.select_all(action='DESELECT') # removes all selections
@@ -13,6 +17,7 @@ bpy.ops.poselib.apply_pose(pose_index=2)
 bpy.data.armatures["Armature"]["wrist_roll_R"] = -3.0
 bpy.data.armatures["Armature"]["wrist_yaw_R"] = -1.0
 
+# modifying part via pose library
 ##################################################
 
 # thumb L
@@ -23,6 +28,7 @@ bpy.ops.pose.group_select()
 rig.pose_library = bpy.data.actions['FingerPoses']
 bpy.ops.poselib.apply_pose(pose_index=2)
 
+# modifying part via pose library 2
 ##################################################
 
 # thumb R
@@ -32,3 +38,9 @@ bpy.ops.pose.group_select()
 # change poses = thumb poses - to web 1
 rig.pose_library = bpy.data.actions['ThumbPoses']
 bpy.ops.poselib.apply_pose(pose_index=0)
+
+# change driver
+##################################################
+
+# wrist turn
+bpy.data.armatures["Armature"]["wrist_roll_R"] = -3.0
