@@ -105,6 +105,7 @@ def rightHandLocation( position ):
 			print("INVALID VALUE func rightHandLocation")
 		
 def leftHandShape( position ):
+	print( position )
 	for i in range(0,5):
 		rig.pose.bone_groups.active_index = i
 		bpy.ops.pose.group_select()
@@ -115,6 +116,7 @@ def leftHandShape( position ):
         	print("INVALID VALUE func leftHandShape: {}".format(position))
 
 def rightHandShape( position ):
+	print( position )
 	for i in range(5,10):
 		rig.pose.bone_groups.active_index = i
 		bpy.ops.pose.group_select()
@@ -239,6 +241,7 @@ def finger( partName, modifierName, value ):
 				bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( value ))
 
 def before():
+	print("de-select")
 	bpy.ops.pose.select_all(action='DESELECT') # removes all selections
 	
 pd.setBeforeRegister(before)
