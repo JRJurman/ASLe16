@@ -29,20 +29,8 @@ handLocationModifiers = [
         "upper-arm", "elbow", "forearm", "back-of-wrist", "inside-of-wrist", "hand"])
 ]
 
-fingerModifiers = [
-    ModifierBlock("Wiggle",      2, ["none", "with-the-joint", "against-the-joint"]),
-    ModifierBlock("Bend",        2, ["open", "half", "closed", "to-thumb"]),
-    ModifierBlock("KnuckleBend", 1, ["open", "bent"]),
-    ModifierBlock("Spread",      1, ["no", "yes"]),
-    ModifierBlock("AtTarget",    1, ["no", "yes"]),
-    ModifierBlock("Null",        1, [""])
-]
-
-thumbModifiers = [
-    ModifierBlock("Wiggle", 2, ["none", "with-the-joint", "against-the-joint"]),
-    ModifierBlock("Bend",   3, ["open", "half", "closed", "to-finger", "to-palm", "to-web-1", "to-web-2"]),
-    ModifierBlock("AtTarget",    1, ["no", "yes"]),
-    ModifierBlock("Null",   2, [""])
+targetModifiers = [
+    ModifierBlock("Finger", 8, ["none", "thumb", "index", "middle", "ring", "pinky"])
 ]
 
 wristModifiers = [
@@ -60,11 +48,7 @@ counter = 0
 parts = []
 parts.append( ("Face", faceModifiers) )
 for p in [
-            ("Thumb", thumbModifiers),
-            ("Index", fingerModifiers),
-            ("Middle", fingerModifiers),
-            ("Ring", fingerModifiers),
-            ("Pinky", fingerModifiers),
+            ("TargetModifiers", targetModifiers),
             ("HandLocation", handLocationModifiers),
             ("HandShape", handShapeModifiers),
 			("Wrist", wristModifiers)

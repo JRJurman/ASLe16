@@ -45,7 +45,7 @@ def leftHandLocation( position ):
 			armature["part_location_L"] = 0
 		elif position == "back-of-wrist":
 			armature["target_forearm_L"] = 1
-			armature["part_location_L"] = 0
+			armature["part_location_L"] = 1
 		elif position == "inside-of-wrist": # TOOD : get wrist rot / loc
 			armature["target_forearm_L"] = 1
 			armature["part_location_L"] = 1
@@ -82,7 +82,7 @@ def rightHandLocation( position ):
 			armature["part_location_R"] = 0
 		elif position == "back-of-wrist":
 			armature["target_forearm_R"] = 1
-			armature["part_location_R"] = 0
+			armature["part_location_R"] = 1
 		elif position == "inside-of-wrist": # TOOD : get wrist rot / loc
 			armature["target_forearm_R"] = 1
 			armature["part_location_R"] = 1
@@ -149,12 +149,6 @@ def rightThumb( bend ):
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( bend ))
 	else:
 		print("INVALID VALUE func rightThumb")
-		
-def leftThumbTarget( value ):
-	armature["L_thumb_target"] = True if value == "yes" else False
-
-def rightThumbTarget( value ):
-	armature["R_thumb_target"] = True if value == "yes" else False
 
 def leftWrist( modifierName, value ):
 	mod = 0
@@ -209,36 +203,24 @@ def rightWrist( modifierName, value ):
 		elif value == "away":
 			mod = -2
 		armature["wrist_yaw_R"] = mod
-	
-def finger( partName, modifierName, value ):
-	# check if we are dealing with a finger
-	if partName[5:] in "".join(["Index","Middle","Ring","Pinky"]):
-		if modifierName == "Spread":
-			pSpreadName = "palm." + {"Index":"01", "Middle":"02", "Ring":"03", "Pinky":"04"}[partName.split("Left")[-1].split("Right")[-1]] 
-			pSpreadName += ".L" if "Left" in partName else ".R"
-			armature.bones[pSpreadName].select = True if value == "yes" else False
-			rig.pose_library = bpy.data.actions['FingerPoses']
-			bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( "spread" ))
-		if modifierName == "AtTarget":
-			pTargetName = "L_" if "Left" in partName else "R_"
-			pTargetName += partName.split("Left")[-1].split("Right")[-1].lower() + "_target"
-			armature[pTargetName] = 1 if value == "yes" else 0
-		if modifierName == "Bend":
-			rig.pose_library = bpy.data.actions['FingerPoses']
-			for i in range(1,4):
-				pBendName = "f_" + partName.split("Left")[-1].split("Right")[-1].lower() + ".0{}.".format(i) 
-				pBendName += "L" if "Left" in partName else "R"
-				armature.bones[pBendName].select = True
-			if value in rig.pose_library.pose_markers.keys():
-				bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( value ))
-		if modifierName == "KnuckleBend":
-			rig.pose_library = bpy.data.actions['FingerPoses']
-			for i in range(2,4):
-				pBendName = "f_" + partName.split("Left")[-1].split("Right")[-1].lower() + ".0{}.".format(i)
-				pBendName += "L" if "Left" in partName else "R"
-				armature.bones[pBendName].select = True
-			if value == "bent":
-				bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( value ))
+		
+def leftTargetFinger( value ):
+	if value != "none":
+		pTargetName = "L_" + value + "_target"
+		armature[pTargetName] = 1
+	else:
+		for f in ["thumb", "index", "middle", "ring", "pinky"]:
+			pTargetName = "L_" + f + "_target"
+			armature[pTargetName] = 0
+		
+def rightTargetFinger( value ):
+	if value != "none":
+		pTargetName = "R_" + value + "_target"
+		armature[pTargetName] = 1
+	else:
+		for f in ["thumb", "index", "middle", "ring", "pinky"]:
+			pTargetName = "R_" + f + "_target"
+			armature[pTargetName] = 0
 
 def before():
 	print("de-select")
@@ -251,11 +233,10 @@ pd.register(leftHandShape, "LeftHandShape", "Handshape")
 pd.register(rightHandShape, "RightHandShape", "Handshape")
 pd.register(leftThumb, "LeftThumb", "Bend")
 pd.register(rightThumb, "RightThumb", "Bend")
-pd.register(leftThumbTarget, "LeftThumb", "AtTarget")
-pd.register(rightThumbTarget, "LeftThumb", "AtTarget")
 pd.register(leftWrist, "LeftWrist")
 pd.register(rightWrist, "RightWrist")
-pd.register(finger)
+pd.register(leftTargetFinger, "LeftTargetFinger", "Finger")
+pd.register(rightTargetFinger, "RightTargetFinger", "Finger")
 
 bpy.context.scene.render.image_settings.file_format = 'BMP'
 frame = bpy.data.scenes["bone+mesh"].frame_current
