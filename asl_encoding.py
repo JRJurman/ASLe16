@@ -16,9 +16,7 @@ faceModifiers = [
 ]
 
 handShapeModifiers = [
-    ModifierBlock("Handshape", 8, [
-        "v-handshape", "bent-v", "closed-hand", "flat-hand", "curved-hand",
-        "claw-hand", "cocked-index", "open-hand", "1-hand", "bent-hand"])
+    ModifierBlock("Handshape", 8, ['relaxed', '1', '3', 'bent3', '4', '5', 'claw5', '6', '7', '8', 'open8', '9', 'flat9', 'a', 'openA', 'b', 'bentB', 'flatB', 'openB', 'c', 'flatC', 'smallC', 'e', 'g', 'h', 'i', 'k', 'l', 'm', 'openM', 'n', 'openN', 'o', 'openO', 'smallO', 'r', 't', 'v', 'bentV', 'x', 'openX', 'y', 'ily', 'corna'])
 ]
 
 handLocationModifiers = [
