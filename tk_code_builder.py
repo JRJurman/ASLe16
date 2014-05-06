@@ -9,7 +9,10 @@ from asl_encoding import asl_encoding
 import re
 
 # OS Libraries -- to do system calls
-import subprocess, os
+import subprocess, os, shlex
+
+# time library -- make sure that rendering doesn't take forever
+import time
 
 # Initialize PyDecipher object
 pd = PyDecipher(asl_encoding)
@@ -43,6 +46,11 @@ renderFrame.pack( side = tkinter.RIGHT )
 
 renderLabel = tkinter.Label( renderFrame )
 renderLabel.pack()
+
+#command = r'"C:\Program Files\Blender Foundation\Blender\blender.exe" -b "ASL_Model.blend" -P "blender_script.py" -y -o "tmp\asl" -F BMP -x 1 -f 1 -t 0 -noglsl'
+command = [r"C:\Program Files\Blender Foundation\Blender\blender.exe","-b",'ASL_Model.blend',"-P","blender_script.py","-y","-o",r"tmp\asl","-F","BMP","-x","1","-f","1","-t","0","-noglsl"]
+print(command)
+blender_process = subprocess.Popen(command, stdin = subprocess.PIPE, shell=True)
 
 # Preparing Lists
 top.buildingBlocks = []
@@ -121,20 +129,32 @@ def render(event):
     binaryField.insert( "1.0", buildString )
     binaryField.config( state = tkinter.DISABLED )
 
-    # Write to file
-    f = open("tmp\\encode.txt", "w")
-    f.write(buildString)
-    f.close()
+
+    # Setup lock
+    start = time.clock()
+    lock = open('tmp/.lock', 'w')
+    if (os.path.exists("tmp/.lock")):
+        print("LOCK CREATED")
+    lock.close()
 
     # Render Picture
+    blender_process.stdin.write(bytes(buildString+"\n", "UTF-8"))
+    blender_process.stdin.flush()
+
+    # Wait for lock to be deleted by subprocess
+    while (os.path.exists("tmp/.lock") and ((time.clock()-start) < 10.0)):
+        pass
+    if (time.clock()-start) < 10.0:
+        print("LOCK WAS REMOVED")
+
     if ( os.name == "nt" ): #WINDOWS SYSTEM
-        subprocess.call("asl_render.bat")
+        #subprocess.call("asl_render.bat")
         subprocess.call("asl_convert.bat")
 
     elif ( os.name == "posix" ): #MACOSX/LINUX/CYGWIN
         pass
 
-    render = tkinter.PhotoImage(file="tmp\\asl0001.gif")
+    render = tkinter.PhotoImage(file="tmp\\asl0000.gif")
     renderLabel.render = render
     renderLabel.config( image=render )
 

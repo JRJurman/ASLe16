@@ -257,4 +257,21 @@ pd.register(leftWrist, "LeftWrist")
 pd.register(rightWrist, "RightWrist")
 pd.register(finger)
 
-pd.callFunctions(open("tmp/encode.txt").read())
+bpy.context.scene.render.image_settings.file_format = 'BMP'
+frame = bpy.data.scenes["bone+mesh"].frame_current
+strFrame = "0"*(4-len(str(frame)))+str(frame)
+bpy.data.scenes["bone+mesh"].render.filepath = "./tmp/asl" + strFrame
+
+while True:
+    #pd.callFunctions(open("tmp/encode.txt").read())
+    commIn = input(":: ")
+    print("Got the following code:: {}".format(commIn))
+    pd.callFunctions(commIn)
+    bpy.ops.render.render( write_still=True )
+    # check if lock was created
+    if os.path.exists("tmp/.lock"):
+        print("FOUND LOCK")
+        #removing lock
+        os.remove("tmp/.lock")
+    else:
+        print("LOCK NOT FOUND")
