@@ -50,9 +50,7 @@ renderFrame.pack( side = tkinter.RIGHT )
 renderLabel = tkinter.Label( renderFrame )
 renderLabel.pack()
 
-#command = r'"C:\Program Files\Blender Foundation\Blender\blender.exe" -b "ASL_Model.blend" -P "blender_script.py" -y -o "tmp\asl" -F BMP -x 1 -f 1 -t 0 -noglsl'
 command = [r"C:\Program Files\Blender Foundation\Blender\blender.exe","-b",'ASL_Model.blend',"-P","blender_script.py","-y","-o",r"tmp\asl","-F","BMP","-x","1","-f","1","-t","0","-noglsl"]
-print(command)
 blender_process = subprocess.Popen(command, stdin = subprocess.PIPE, shell=True)
 
 # Preparing Lists
@@ -74,13 +72,11 @@ def newBlock():
     binaryField.config( height = len(top.buildingBlocks) )
     setBlock(len(top.buildingBlocks)-1, partName)
     
-def removeBlock(index=-1, event=None):
+def removeBlock(block, event=None):
 
-    block = top.buildingBlocks.pop(index)
+    top.buildingBlocks.remove(block)
     block["entry"].destroy()
     binaryField.config( height = len(top.buildingBlocks) )
-    print(top.buildingBlocks)
-
 
     render(None)
 
@@ -111,7 +107,7 @@ def setBlock(index, partName):
         col_val += 2
     
     tkinter.Label( block["entry"], text=" ", bg=bgColor ).grid( row = 0, column = 1 )
-    tkinter.Button( block["entry"], text="-", command=lambda : removeBlock(index) ).grid( row = 0, column = 0 )
+    tkinter.Button( block["entry"], text="-", command=lambda : removeBlock(block) ).grid( row = 0, column = 0 )
 
         
     top.buildingBlocks[index] = block
@@ -150,8 +146,8 @@ def render(event=None):
     # Setup lock
     start = time.clock()
     lock = open('tmp/.lock', 'w')
-    if (os.path.exists("tmp/.lock")):
-        print("LOCK CREATED")
+    if (not os.path.exists("tmp/.lock")):
+        print("LOCK WAS NOT CREATED")
     lock.close()
 
     # Render Picture
@@ -164,8 +160,8 @@ def render(event=None):
     # Wait for lock to be deleted by subprocess
     while (os.path.exists("tmp/.lock") and ((time.clock()-start) < 10.0)):
         pass
-    if (time.clock()-start) < 10.0:
-        print("LOCK WAS REMOVED")
+    if (time.clock()-start) >= 10.0:
+        print("LOCK WAS NOT REMOVED")
 
     if ( os.name == "nt" ): #WINDOWS SYSTEM
         #subprocess.call("asl_render.bat")
