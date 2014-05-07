@@ -43,12 +43,9 @@ class PyDecipher:
                 if cPart != None:
                     code = binaryStr
                     for m in self.code[cPart].modifiers:
-                        #res += "| {}: ".format(m.name)
-                        if code[:m.size] in m.values.keys():
-                            #res += m.values[code[:m.size]] + "\n"
-                            res[len(res)-1]["modifiers"].append( (m.name, m.values[code[:m.size]]) )
+                        if code[:m.size] in m.lookup.keys():
+                            res[len(res)-1]["modifiers"].append( (m.name, m.lookup[code[:m.size]]) )
                         else:
-                            #res += "unknown \n"
                             res[len(res)-1]["modifiers"].append( (m.name, "unknown") )
                         code = code[m.size:]
         return res
