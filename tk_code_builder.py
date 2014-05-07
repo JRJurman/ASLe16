@@ -1,5 +1,8 @@
-#import Tkinter as tkinter      # for python2
-import tkinter                  # for python3
+import sys
+if sys.version_info.major >= 3:
+    import tkinter                  # for python3
+else:
+    import Tkinter as tkinter       # for python2
 
 # Encoding Magic
 from PyDecipher import PyDecipher
@@ -31,7 +34,7 @@ detailColor = "DeepSkyBlue4"
 
 # SELECTING FRAME
 selectFrame = tkinter.Frame( top, bg=bg2Color )
-selectFrame.pack( side = tkinter.LEFT )
+selectFrame.pack( side = tkinter.LEFT, anchor = "nw" )
 
 binaryField = tkinter.Text( selectFrame, fg=validColor, bg=bgColor, state=tkinter.DISABLED, font=(None, 16), height=1, width=17 )
 binaryField.pack( side = tkinter.TOP, anchor = "w")
@@ -71,6 +74,16 @@ def newBlock():
     binaryField.config( height = len(top.buildingBlocks) )
     setBlock(len(top.buildingBlocks)-1, partName)
     
+def removeBlock(index=-1, event=None):
+
+    block = top.buildingBlocks.pop(index)
+    block["entry"].destroy()
+    binaryField.config( height = len(top.buildingBlocks) )
+    print(top.buildingBlocks)
+
+
+    render(None)
+
 
 def setBlock(index, partName):
     block = top.buildingBlocks[index]
@@ -78,7 +91,7 @@ def setBlock(index, partName):
     block["PartStringVar"].set( partName )
     block["PartDropDown"] = tkinter.OptionMenu( block["entry"], block["PartStringVar"], *sorted(asl_encoding.keys()),
                                                 command=lambda e: setBlock(index, e))
-    block["PartDropDown"].grid( row = 0, column = 0 )
+    block["PartDropDown"].grid( row = 0, column = 2 )
 
     for m in block["ModifiersDropDown"]:
         m.destroy()
@@ -87,21 +100,25 @@ def setBlock(index, partName):
     block["ModifiersDropDown"] = []
     block["ModifiersLabel"] = []
     block["ModifiersStringVar"] = []
-    col_val = 1
+    col_val = 3
     for m in asl_encoding[partName].modifiers:
         block["ModifiersLabel"].append( tkinter.Label( block["entry"], bg=bgColor, text=m.name ) )
         block["ModifiersLabel"][-1].grid( row = 0, column = col_val )
         block["ModifiersStringVar"].append( tkinter.StringVar() )
-        block["ModifiersStringVar"][-1].set( sorted(m.values.values())[0] )
-        block["ModifiersDropDown"].append(tkinter.OptionMenu( block["entry"], block["ModifiersStringVar"][-1], *sorted(m.values.values()), command=render ))
+        block["ModifiersStringVar"][-1].set( m.values[0] )
+        block["ModifiersDropDown"].append(tkinter.OptionMenu( block["entry"], block["ModifiersStringVar"][-1], *m.values, command=render ))
         block["ModifiersDropDown"][-1].grid( row = 0, column = col_val+1 )
         col_val += 2
+    
+    tkinter.Label( block["entry"], text=" ", bg=bgColor ).grid( row = 0, column = 1 )
+    tkinter.Button( block["entry"], text="-", command=lambda : removeBlock(index) ).grid( row = 0, column = 0 )
+
         
     top.buildingBlocks[index] = block
     render(None)
 
 
-def render(event):
+def render(event=None):
     buildString = ""
     pCount = len(top.buildingBlocks)-1
 
@@ -138,7 +155,10 @@ def render(event):
     lock.close()
 
     # Render Picture
-    blender_process.stdin.write(bytes(buildString+"\n", "UTF-8"))
+    if sys.version_info.major >= 3:
+        blender_process.stdin.write(bytes(buildString+"\n", "UTF-8"))
+    else:
+        blender_process.stdin.write(buildString+"\n")
     blender_process.stdin.flush()
 
     # Wait for lock to be deleted by subprocess
@@ -161,7 +181,7 @@ def render(event):
 
 newBlock()
 
-addButton = tkinter.Button( selectFrame, text="+", bg=bgColor, command=newBlock )
+addButton = tkinter.Button( selectFrame, text="+", command=newBlock )
 addButton.pack( side = tkinter.BOTTOM )
 
 
