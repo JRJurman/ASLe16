@@ -35,12 +35,14 @@ class ModifierBlock:
     def __init__(self, name, size, values):
         self.name = name
         self.size = size
-        self.values = {}
+        self.values = []
+        self.lookup = {}
         self.reverseLookup = {}
 
         c = 0
         for v in values:
             key = "0"*(size - len(bin(c)[2:])) + bin(c)[2:]
-            self.values[key] = v
+            self.values.append(v)
+            self.lookup[key] = v
             self.reverseLookup[v] = key
             c += 1
