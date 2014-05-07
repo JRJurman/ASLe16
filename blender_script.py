@@ -139,60 +139,26 @@ def rightHandShape( position, addToUndo=True ):
 
 		
 def leftWrist( modifierName, value, addToUndo=True ):
-	mod = 0
-	if modifierName == "Roll":
-		if value == "toward":
-			mod = 1
-		elif value == "tilted":
-			mod = -1
-		elif value == "away":
-			mod = -2
-		armature["wrist_roll_L"] = mod
-	if modifierName == "Pitch":
-		if value == "toward":
-			mod = 1
-		elif value == "tilted":
-			mod = -1
-		elif value == "away":
-			mod = -2
-		armature["wrist_pitch_L"] = mod
-	if modifierName == "Yaw":
-		if value == "toward":
-			mod = 1
-		elif value == "tilted":
-			mod = -1
-		elif value == "away":
-			mod = -2
-		armature["wrist_yaw_L"] = mod
+	mod = 0	
+	if value == "toward":
+		mod = 2
+	elif value == "away":
+		mod = -3
+	elif value == "tilted":
+		mod = -1
+	armature["wrist_" + modifierName.lower() + "_L"] = mod
 	if addToUndo:
 		undoStack.append( lambda : leftWrist( modifierName, "none", False ) )
 
 def rightWrist( modifierName, value, addToUndo=True ):
-	mod = 0
-	if modifierName == "Roll":
-		if value == "toward":
-			mod = 1
-		elif value == "tilted":
-			mod = -1
-		elif value == "away":
-			mod = -2
-		armature["wrist_roll_R"] = mod
-	if modifierName == "Pitch":
-		if value == "toward":
-			mod = 1
-		elif value == "tilted":
-			mod = -1
-		elif value == "away":
-			mod = -2
-		armature["wrist_pitch_R"] = mod
-	if modifierName == "Yaw":
-		if value == "toward":
-			mod = 1
-		elif value == "tilted":
-			mod = -1
-		elif value == "away":
-			mod = -2
-		armature["wrist_yaw_R"] = mod
+	mod = 0	
+	if value == "toward":
+		mod = 2
+	elif value == "away":
+		mod = -3
+	elif value == "tilted":
+		mod = -1
+	armature["wrist_" + modifierName.lower() + "_R"] = mod
 	if addToUndo:
 		undoStack.append( lambda : rightWrist( modifierName, "none", False ) )
 		
