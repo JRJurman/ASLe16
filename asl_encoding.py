@@ -68,6 +68,11 @@ for p in parts:
 
 if __name__ == '__main__':
     for part in sorted(asl_encoding.values(), key=lambda x: x.name ):
-        print( "{}".format(part.name) )
+        print( "\n{} ________ > {}".format(part.identifier, part.name) )
+        cursor = 0
         for m in part.modifiers:
-            print( "| {} : {}".format(m.name, list(m.values.values())) )
+            for v in list(m.values):
+                binary = "{} {}{}{}".format(part.identifier, "_"*cursor, m.reverseLookup[v], "_"*(8-cursor-m.size))
+                print( "{} >   {} : {}".format(binary,  m.name, v) )
+
+            cursor += m.size
