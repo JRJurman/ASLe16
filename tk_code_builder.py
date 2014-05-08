@@ -163,12 +163,7 @@ def render(event=None):
     if (time.clock()-start) >= 10.0:
         print("LOCK WAS NOT REMOVED")
 
-    if ( os.name == "nt" ): #WINDOWS SYSTEM
-        #subprocess.call("asl_render.bat")
-        subprocess.call("asl_convert.bat")
-
-    elif ( os.name == "posix" ): #MACOSX/LINUX/CYGWIN
-        pass
+    subprocess.call(["convert", "./tmp/asl0000.bmp", "./tmp/asl0000.gif"], shell=True)
 
     render = tkinter.PhotoImage(file="tmp\\asl0000.gif")
     renderLabel.render = render
