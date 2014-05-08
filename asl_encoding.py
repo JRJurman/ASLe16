@@ -21,12 +21,13 @@ handShapeModifiers = [
 
 handLocationModifiers = [
     ModifierBlock("Location", 8, [
-        "neutral-space", "forehead/brow", "mouth/chin", "eyes/nose", "left-temple",
-        "right-temple", "left-cheek/ear", "right-cheek/ear", "face/head", 
-        "shoulder-left", "manubrium", "shoulder-right",
+        "neutral-space", "hand", "forehead/brow", "mouth/chin", "eyes/nose", 
+        "left-temple", "right-temple", "left-cheek/ear", "right-cheek/ear",  
+        "face/head", "shoulder-left", "manubrium", "shoulder-right",
         "torso-left", "torso-center", "torso-right",
         "waist-left", "waist-center", "waist-right",
-        "upper-arm", "elbow", "forearm", "back-of-wrist", "inside-of-wrist", "hand"])
+        "upper-arm", "elbow", "forearm", "back-of-wrist", "inside-of-wrist",
+		"up", "down", "forward", "back", "left", "right"])
 ]
 
 targetModifiers = [
@@ -34,11 +35,12 @@ targetModifiers = [
 ]
 
 wristModifiers = [
-	ModifierBlock("Wiggle", 2, ["none", "roll", "pitch", "yaw"]),
-	ModifierBlock("Roll", 2, ["none","toward","tilted","away"]),
+	ModifierBlock("Roll", 4, ["0","1","2","3","-3","-2","-1"]),
 	ModifierBlock("Pitch", 2, ["none","toward","tilted","away"]),
 	ModifierBlock("Yaw", 2, ["none","toward","tilted","away"])
 ]
+
+
 
 asl_encoding = {}
 class ASL_PART: pass

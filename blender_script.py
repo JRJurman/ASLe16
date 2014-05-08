@@ -35,9 +35,16 @@ def leftHandLocation( position, addToUndo=True ):
 	rig.pose.bone_groups.active_index = 11
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['Locations']
-	positions = ['target_chest_L', 'target_forearm_L', 'target_part_location_L', 'target_upper_arm_L']
+	positions = ['target_chest_L', 'target_forearm_L', 'target_part_location_L', 'target_upper_arm_L', 'slider_L']
 	for i in positions:
 		armature[i] = 0
+	rig.pose.bones["controller_L"].rotation_axis_angle[0] = 90
+	for i in range(1,4):
+		rig.pose.bones["controller_L"].rotation_axis_angle[i] = 0
+	directions = ["forward","back","up","down","left","right"]
+	if position in directions:
+		rig.pose.bones["controller_L"].rotation_axis_angle[int((directions.index(position)) / 2) + 1] = 1.0
+		armature["slider_L"] = 0.5 if directions.index(position) % 2 == 0 else -0.5
 	if position in rig.pose_library.pose_markers.keys():
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( position ))
 	else:
@@ -76,10 +83,17 @@ def rightHandLocation( position, addToUndo=True ):
 	rig.pose.bone_groups.active_index = 10
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['Locations']
-	positions = ['target_chest_R', 'target_forearm_R', 'target_part_location_R', 'target_upper_arm_R']
+	positions = ['target_chest_R', 'target_forearm_R', 'target_part_location_R', 'target_upper_arm_R', 'slider_R']
 	for i in positions:
 		armature[i] = 0
-	if position in rig.pose_library.pose_markers.keys():
+	rig.pose.bones["controller_R"].rotation_axis_angle[0] = 90
+	for i in range(1,4):
+		rig.pose.bones["controller_R"].rotation_axis_angle[i] = 0
+	directions = ["forward","back","up","down","left","right"]
+	if position in directions:
+		rig.pose.bones["controller_R"].rotation_axis_angle[int((directions.index(position)) / 2) + 1] = 1.0
+		armature["slider_R"] = 0.5 if directions.index(position) % 2 == 0 else -0.5
+	elif position in rig.pose_library.pose_markers.keys():
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( position ))
 	else:
 		if position == "waist-center":
@@ -137,9 +151,8 @@ def rightHandShape( position, addToUndo=True ):
 	if addToUndo:
 		undoStack.append( lambda : rightHandShape( "relaxed", False ) )
 
-		
 def leftWrist( modifierName, value, addToUndo=True ):
-	mod = 0	
+	mod = 0 if value == "none" else int(value)
 	if value == "toward":
 		mod = 2
 	elif value == "away":
@@ -151,7 +164,7 @@ def leftWrist( modifierName, value, addToUndo=True ):
 		undoStack.append( lambda : leftWrist( modifierName, "none", False ) )
 
 def rightWrist( modifierName, value, addToUndo=True ):
-	mod = 0	
+	mod = 0 if value == "none" else int(value)
 	if value == "toward":
 		mod = 2
 	elif value == "away":
