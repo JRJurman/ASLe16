@@ -8,17 +8,6 @@ armature = bpy.data.armatures["Armature"]
 bpy.context.scene.objects.active = rig
 bpy.ops.object.mode_set(mode='POSE') # change blender context
 bpy.ops.pose.select_all(action='DESELECT') # removes all selections
-"""
-# example code
-# select hands
-for i in range(10):
-	rig.pose.bone_groups.active_index = i
-	bpy.ops.pose.group_select()
-bpy.ops.poselib.apply_pose(pose_index=2)
-# wrist turn
-armature["Armature"]["wrist_roll_R"] = -3.0
-armature["Armature"]["wrist_yaw_R"] = -1.0
-"""
 
 import os
 import sys
@@ -205,7 +194,7 @@ pd.register(rightTargetModifiers, "RightTargetModifiers", "Finger")
 bpy.context.scene.render.image_settings.file_format = 'BMP'
 frame = bpy.data.scenes["bone+mesh"].frame_current
 strFrame = "0"*(4-len(str(frame)))+str(frame)
-bpy.data.scenes["bone+mesh"].render.filepath = "./tmp/asl" + strFrame
+bpy.data.scenes["bone+mesh"].render.filepath = r"{}/tmp/asl{}".format(os.getcwd(), strFrame)
 
 while True:
 	# Grab the next Binary Code
