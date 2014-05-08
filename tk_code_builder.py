@@ -12,7 +12,7 @@ from asl_encoding import asl_encoding
 import re
 
 # OS Libraries -- to do system calls
-import subprocess, os, shlex
+import subprocess, os, platform
 
 # time library -- make sure that rendering doesn't take forever
 import time
@@ -50,8 +50,52 @@ renderFrame.pack( side = tkinter.RIGHT )
 renderLabel = tkinter.Label( renderFrame )
 renderLabel.pack()
 
-command = [r"C:\Program Files\Blender Foundation\Blender\blender.exe","-b",'ASL_Model.blend',"-P","blender_script.py","-y","-o",r"tmp\asl","-F","BMP","-x","1","-f","1","-t","0","-noglsl"]
-blender_process = subprocess.Popen(command, stdin = subprocess.PIPE, shell=True)
+# FIND PATHS FOR EXTERNAL RESOURCES
+# WINDOWS USES IMAGEMAGICK, MAC USES SIPS
+blenderPath = ""
+convertPath = ""
+if platform.system() == "Windows":
+    defaultBlenderPath = r"C:\Program Files\Blender Foundation\Blender\blender.exe"   # Default Install Path
+    defaultConvertPath = r"C:\Program Files\ImageMagick-6.8.9-q16\convert.exe"
+    includedBlenderPath = r"Blender\blender.exe"                                      # Bundled Install Path
+    includedConvertPath = r"ImageMagick\convert.exe"
+elif platform.system() == "Darwin":
+    defaultBlenderPath = r"/Applications/Blender/blender.app/Contents/MacOS/blender"  # Default Install Path
+    defaultConvertPath = ""
+    includedBlenderPath = r"Blender/blender.app/Contents/MacOS/blender"               # Bundled Install Path
+    includedConvertPath = ""
+  
+if os.path.exists(defaultBlenderPath):
+    blenderPath = defaultBlenderPath
+elif os.path.exists(includedBlenderPath):
+    blenderPath = includedBlenderPath
+else:
+    blenderPath = tkFileDialog.askopenfile(title="Couldn't Find Blender, Select blender Binary") 
+    
+if os.path.exists(defaultConvertPath):
+    convertPath = defaultConvertPath
+elif os.path.exists(includedConvertPath):
+    convertPath = includedConvertPath
+
+if platform.system() == "Darwin":
+    convertCom = ["sips", "-s", "format", "gif", "tmp/asl0000.bmp", "--out", "tmp/asl0000.gif"]
+else:
+    if convertPath == "":
+        convertPath = tkFileDialog.askopenfile(title="Couldn't Find ImageMagick, Select convert Binary")
+    convertCom = [convertPath,"./tmp/asl0000.bmp","./tmp/asl0000.gif"]
+
+blenderCom = [blenderPath,"-b",'ASL_Model.blend',"-P","blender_script.py","-y"]
+
+if os.name == "nt":
+    renderCommand = blenderCom
+    convertCommand = convertCom
+elif os.name == "posix":
+    renderCommand = " ".join(blenderCom)
+    convertCommand = " ".join(convertCom)
+
+# RENDER DEFAULT IMAGE USING BLENDER EXECUTABLE
+print(renderCommand)
+blender_process = subprocess.Popen(renderCommand, stdin = subprocess.PIPE, shell=True)
 
 # Preparing Lists
 top.buildingBlocks = []
@@ -163,9 +207,9 @@ def render(event=None):
     if (time.clock()-start) >= 10.0:
         print("LOCK WAS NOT REMOVED")
 
-    subprocess.call(["convert", "./tmp/asl0000.bmp", "./tmp/asl0000.gif"], shell=True)
+    subprocess.call(convertCommand, shell=True)
 
-    render = tkinter.PhotoImage(file="tmp\\asl0000.gif")
+    render = tkinter.PhotoImage(file="tmp/asl0000.gif")
     renderLabel.render = render
     renderLabel.config( image=render )
 
