@@ -33,7 +33,7 @@ def leftHandLocation( position, addToUndo=True ):
 	directions = ["forward","back","up","down","left","right"]
 	if position in directions:
 		rig.pose.bones["controller_L"].rotation_axis_angle[int((directions.index(position)) / 2) + 1] = 1.0
-		armature["slider_L"] = 0.5 if directions.index(position) % 2 == 0 else -0.5
+		armature["slider_L"] = 1.0 if directions.index(position) % 2 == 0 else -0.5
 	if position in rig.pose_library.pose_markers.keys():
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( position ))
 	else:
@@ -81,7 +81,7 @@ def rightHandLocation( position, addToUndo=True ):
 	directions = ["forward","back","up","down","left","right"]
 	if position in directions:
 		rig.pose.bones["controller_R"].rotation_axis_angle[int((directions.index(position)) / 2) + 1] = 1.0
-		armature["slider_R"] = 0.5 if directions.index(position) % 2 == 0 else -0.5
+		armature["slider_R"] = 1.0 if directions.index(position) % 2 == 0 else -0.5
 	elif position in rig.pose_library.pose_markers.keys():
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( position ))
 	else:
@@ -141,25 +141,33 @@ def rightHandShape( position, addToUndo=True ):
 		undoStack.append( lambda : rightHandShape( "relaxed", False ) )
 
 def leftWrist( modifierName, value, addToUndo=True ):
-	mod = 0 if value == "none" else int(value)
 	if value == "toward":
 		mod = 2
 	elif value == "away":
 		mod = -3
 	elif value == "tilted":
 		mod = -1
+	elif value == "none":
+		mod = 0
+	else:
+		mod = int(value)
+
 	armature["wrist_" + modifierName.lower() + "_L"] = mod
 	if addToUndo:
 		undoStack.append( lambda : leftWrist( modifierName, "none", False ) )
 
 def rightWrist( modifierName, value, addToUndo=True ):
-	mod = 0 if value == "none" else int(value)
 	if value == "toward":
 		mod = 2
 	elif value == "away":
 		mod = -3
 	elif value == "tilted":
 		mod = -1
+	elif value == "none":
+		mod = 0
+	else:
+		mod = int(value)
+
 	armature["wrist_" + modifierName.lower() + "_R"] = mod
 	if addToUndo:
 		undoStack.append( lambda : rightWrist( modifierName, "none", False ) )
