@@ -9,6 +9,7 @@ ASLe16 is an encoding system that represents the American Sign Language using a 
 ### asl_encoding.py
 
 To generate a full listing of encodings, run (hint, you may want to append ```| less``` to the call to make it easier to read):
+
     python asl_encoding.py
 
 Python script; asl_encoding is a script that generates all the binary encodings. The script uses the PartBlock and ModifierBlock classes from Encoding.py, and is loaded into the construction of PyDecipher
@@ -20,6 +21,7 @@ Binary Blender file; This is the blender armature that has been rigged with vari
 ### blender_script.py
 
 This file can be run by itself, and takes binary strings from standard-in. The images rendered will be placed in the ./tmp/ located in this folder.
+
     python blender_script.py
 
 Python Script; This script works with the ASL_Model.blend file and the bpy library which allows python to interact with blender in a scriptable way. This file also makes use of the PyDecipher class, which allows registering functions to a given decipherment. 
