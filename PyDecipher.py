@@ -15,11 +15,13 @@ class PyDecipher:
         for e in encoding.values():
             self.code[e.identifier] = e
 
-    # Convert binary string to english descriptors
-    # Returns a List of PartHashes including:
-    #       Name : PartName
-    #       Modifiers : A list of tuples, that are:
-    #               (Modifier Name, Modifier Value)
+    """
+    Convert binary string to english descriptors
+    Returns a list of hashes including:
+          Name : PartName
+          Modifiers : A list of tuples, that are:
+                  (Modifier Name, Modifier Value)
+    """
     def decipher(self, string):
         part = False
         res = []
@@ -51,15 +53,21 @@ class PyDecipher:
         return res
 
 
-    # afterRegister - function that gets called after every register call
+    """
+    afterRegister - function that gets called after every register call
+    """
     def setAfterRegister(self, func):
         self.afterRegister = func
 
-    # beforeRegister - function that gets called after before register call
+    """
+    beforeRegister - function that gets called after before register call
+    """
     def setBeforeRegister(self, func):
         self.beforeRegister = func
 
-    # register a function for a given PartName, PartMod, or ModifierValue
+    """
+    register a function for a given PartName, PartMod, or ModifierValue
+    """
     def register(self, func, PartName=None, PartModifier=None, ModifierValue=None):
 
         if (PartName == None) and (PartModifier == None) and (ModifierValue == None):
@@ -74,7 +82,9 @@ class PyDecipher:
         elif (ModifierValue != None):
             self.functions[(PartName, PartModifier, ModifierValue)] = lambda : func()
 
-    # Calls Registered Functions on PyDecipher Parts
+    """
+    Calls Registered Functions on PyDecipher Parts
+    """
     def callFunctions(self, string):
         for p in self.decipher(string):
             for m in p["modifiers"]:
@@ -101,19 +111,27 @@ class PyDecipher:
                     self.afterRegister()
 
 
-    # Do we have blocks of 8?
+    """
+    Do we have blocks of 8?
+    """
     def isMissingBits(self, string):
         return re.match(r"^([01]{8} )*$", string)==None
 
-    # Do we have an ending block?
+    """
+    Do we have an ending block?
+    """
     def isMissingBytes(self, string):
         return re.match(r"0[01]{7} [01]{8}$", string)==None
 
-    # Do we have an extra block?
+    """
+    Do we have an extra block?
+    """
     def tooManyBytes(self, string):
         return re.match(r"0[01]{7} [01]{8} 1[01]{7} [01]{8}$", string)==None
 
-    # All encompasing regex
+    """
+    All encompasing regex
+    """
     def isValid(self, string):
         return re.match(r"^(1[01]{7} [01]{8} )*(0[01]{7} [01]{8})$", string)
 
