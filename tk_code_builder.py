@@ -20,34 +20,33 @@ import time
 # Initialize PyDecipher object
 pd = PyDecipher(asl_encoding)
 
+# Colors
+fgColor = "navajo white"
+buttonColor = "#DFD2B0"
+bgColor = "#353535"
+detailColor = "DeepSkyBlue4"
+
 # Run tk window
 top = tkinter.Tk()
 top.title("ASLe16 Interactive Builder")
-
-# Colors
-fgColor = "navajo white"
-bgColor = "azure2"
-bg2Color = "azure3"
-validColor = "green4"
-errorColor = "chocolate2"
-detailColor = "DeepSkyBlue4"
+top.config(bg=bgColor)
 
 # SELECTING FRAME
-selectFrame = tkinter.Frame( top, bg=bg2Color )
+selectFrame = tkinter.Frame( top, bg=bgColor )
 selectFrame.pack( side = tkinter.LEFT, anchor = "nw" )
 
-binaryField = tkinter.Text( selectFrame, fg=validColor, bg=bgColor, state=tkinter.DISABLED, font=(None, 16), height=1, width=17 )
+binaryField = tkinter.Text( selectFrame, fg=fgColor, bg=bgColor, state=tkinter.DISABLED, font=(None, 16), height=1, width=17 )
 binaryField.pack( side = tkinter.TOP, anchor = "w")
 
-dropDownFields = tkinter.Frame( selectFrame, bg=bg2Color )
+dropDownFields = tkinter.Frame( selectFrame, bg=bgColor )
 dropDownFields.pack( side = tkinter.TOP )
 
 
 # RENDER FRAME
-renderFrame = tkinter.Frame( top, bg=bg2Color )
+renderFrame = tkinter.Frame( top, bg=bgColor )
 renderFrame.pack( side = tkinter.RIGHT )
 
-renderLabel = tkinter.Label( renderFrame )
+renderLabel = tkinter.Label( renderFrame, bd=0)
 renderLabel.pack()
 
 # FIND PATHS FOR EXTERNAL RESOURCES
@@ -131,6 +130,7 @@ def setBlock(index, partName):
     block["PartStringVar"].set( partName )
     block["PartDropDown"] = tkinter.OptionMenu( block["entry"], block["PartStringVar"], *sorted(asl_encoding.keys()),
                                                 command=lambda e: setBlock(index, e))
+    block["PartDropDown"].config(bd=0, bg=buttonColor)
     block["PartDropDown"].grid( row = 0, column = 2 )
 
     for m in block["ModifiersDropDown"]:
@@ -142,16 +142,18 @@ def setBlock(index, partName):
     block["ModifiersStringVar"] = []
     col_val = 3
     for m in asl_encoding[partName].modifiers:
-        block["ModifiersLabel"].append( tkinter.Label( block["entry"], bg=bgColor, text=m.name ) )
+        block["ModifiersLabel"].append( tkinter.Label( block["entry"], fg=fgColor, bg=bgColor, text=m.name ) )
         block["ModifiersLabel"][-1].grid( row = 0, column = col_val )
         block["ModifiersStringVar"].append( tkinter.StringVar() )
         block["ModifiersStringVar"][-1].set( m.values[0] )
         block["ModifiersDropDown"].append(tkinter.OptionMenu( block["entry"], block["ModifiersStringVar"][-1], *m.values, command=render ))
+        block["ModifiersDropDown"][-1].config(bd=0, bg=buttonColor)
+
         block["ModifiersDropDown"][-1].grid( row = 0, column = col_val+1 )
         col_val += 2
     
-    tkinter.Label( block["entry"], text=" ", bg=bgColor ).grid( row = 0, column = 1 )
-    tkinter.Button( block["entry"], text="-", command=lambda : removeBlock(block) ).grid( row = 0, column = 0 )
+    tkinter.Label( block["entry"], text=" ", fg=fgColor, bg=bgColor ).grid( row = 0, column = 1 )
+    tkinter.Button( block["entry"], text="-", border=0, command=lambda : removeBlock(block) ).grid( row = 0, column = 0 )
 
         
     top.buildingBlocks[index] = block
@@ -216,8 +218,10 @@ def render(event=None):
 
 newBlock()
 
-addButton = tkinter.Button( selectFrame, text="+", command=newBlock )
+addButton = tkinter.Button( selectFrame, text="+", border=0, command=newBlock )
 addButton.pack( side = tkinter.BOTTOM )
+emptyLabel = tkinter.Label( selectFrame, bg=bgColor, text=" " )
+emptyLabel.pack( side = tkinter.BOTTOM )
 
 
 top.mainloop()
