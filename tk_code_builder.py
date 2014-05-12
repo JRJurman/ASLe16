@@ -127,6 +127,17 @@ def removeBlock(block, event=None):
 
 
 def setBlock(index, partName):
+
+    if (index >= len(top.buildingBlocks)):
+        badWin = tkinter.Toplevel()
+        badWin.title("Well, this is awkward...")
+
+        msg = tkinter.Message(badWin, text="Something bad happend, please save or make note of your progress, and restart the application", width=350)
+        msg.pack()
+
+        button = tkinter.Button(badWin, text="OK", command=badWin.destroy)
+        button.pack()
+
     block = top.buildingBlocks[index]
 
     block["PartStringVar"].set( partName )
