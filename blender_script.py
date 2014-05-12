@@ -24,7 +24,7 @@ def leftHandLocation( position, addToUndo=True ):
 	rig.pose.bone_groups.active_index = 11
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['Locations']
-	positions = ['target_chest_L', 'target_forearm_L', 'target_part_location_L', 'target_upper_arm_L', 'slider_L', 'target_hand_L']
+	positions = ['target_chest_L', 'target_forearm_L', 'target_part_location_L', 'target_upper_arm_L', 'slider_L', 'target_hand_L', 'target_target_L']
 	for i in positions:
 		armature[i] = 0
 	rig.pose.bones["controller_L"].rotation_axis_angle[0] = 90
@@ -37,7 +37,9 @@ def leftHandLocation( position, addToUndo=True ):
 	if position in rig.pose_library.pose_markers.keys():
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( position ))
 	else:
-		if position == "waist-center":
+		if position == "target":
+			armature["target_target_L"] = 1
+		elif position == "waist-center":
 			armature["target_chest_L"] = 1
 			armature["target_part_location_L"] = 0
 		elif position == "forearm":
@@ -72,7 +74,7 @@ def rightHandLocation( position, addToUndo=True ):
 	rig.pose.bone_groups.active_index = 10
 	bpy.ops.pose.group_select()
 	rig.pose_library = bpy.data.actions['Locations']
-	positions = ['target_chest_R', 'target_forearm_R', 'target_part_location_R', 'target_upper_arm_R', 'slider_R', 'target_hand_R']
+	positions = ['target_chest_R', 'target_forearm_R', 'target_part_location_R', 'target_upper_arm_R', 'slider_R', 'target_hand_R', 'target_target_R']
 	for i in positions:
 		armature[i] = 0
 	rig.pose.bones["controller_R"].rotation_axis_angle[0] = 90
@@ -85,7 +87,9 @@ def rightHandLocation( position, addToUndo=True ):
 	elif position in rig.pose_library.pose_markers.keys():
 		bpy.ops.poselib.apply_pose(pose_index=rig.pose_library.pose_markers.keys().index( position ))
 	else:
-		if position == "waist-center":
+		if position == "target":
+			armature["target_target_R"] = 1
+		elif position == "waist-center":
 			armature["target_chest_R"] = 1
 			armature["target_part_location_R"] = 0
 		elif position == "forearm":
