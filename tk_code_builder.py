@@ -35,11 +35,13 @@ top.config(bg=bgColor)
 selectFrame = tkinter.Frame( top, bg=bgColor )
 selectFrame.pack( side = tkinter.LEFT, anchor = "nw" )
 
-binaryField = tkinter.Text( selectFrame, fg=fgColor, bg=bgColor, state=tkinter.DISABLED, font=(None, 16), height=1, width=17 )
+binaryField = tkinter.Text( selectFrame, fg=fgColor, bg=bgColor, bd=0, state=tkinter.DISABLED, font=(None, 16), height=1, width=17 )
 binaryField.pack( side = tkinter.TOP, anchor = "w")
 
+tkinter.Label( selectFrame, bg=bgColor, fg=fgColor, text=("_"*120) ).pack( side = tkinter.TOP )
+
 dropDownFields = tkinter.Frame( selectFrame, bg=bgColor )
-dropDownFields.pack( side = tkinter.TOP )
+dropDownFields.pack( side = tkinter.TOP, anchor = "w" )
 
 
 # RENDER FRAME
@@ -220,8 +222,7 @@ newBlock()
 
 addButton = tkinter.Button( selectFrame, text="+", border=0, command=newBlock )
 addButton.pack( side = tkinter.BOTTOM )
-emptyLabel = tkinter.Label( selectFrame, bg=bgColor, text=" " )
-emptyLabel.pack( side = tkinter.BOTTOM )
+tkinter.Label( selectFrame, bg=bgColor, fg=fgColor, text=("_"*120) ).pack( side = tkinter.BOTTOM )
 
 
 top.mainloop()
