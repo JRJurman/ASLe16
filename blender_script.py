@@ -1,3 +1,7 @@
+"""
+blender_script.py script for interacting with blender
+Author: Jesse Jurman and Ethan Jurman
+"""
 
 import bpy
 # identifiers 

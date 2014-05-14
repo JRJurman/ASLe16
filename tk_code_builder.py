@@ -1,3 +1,8 @@
+"""
+tk_code_builder.py script for launching tkinter application
+Author: Jesse Jurman and Ethan Jurman
+"""
+
 import sys
 if sys.version_info.major >= 3:
     import tkinter                  # for python3

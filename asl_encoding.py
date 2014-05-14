@@ -1,3 +1,8 @@
+"""
+asl_encoding.py script and hashtable
+Author: Jesse Jurman and Ethan Jurman
+"""
+
 from Encoding import PartBlock, ModifierBlock
 
 # Binary - Number of Values

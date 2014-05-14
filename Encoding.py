@@ -1,5 +1,6 @@
 """
 Classes for PartBlocks, and ModifierBlocks
+Author: Jesse Jurman and Ethan Jurman
 """
 
 """

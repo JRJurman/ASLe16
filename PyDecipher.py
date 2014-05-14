@@ -1,6 +1,7 @@
 """
 Python application that takes in a list of bits and
 returns the pose representations
+Author: Jesse Jurman and Ethan Jurman
 """
 
 import re           # regex library
