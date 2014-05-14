@@ -66,5 +66,7 @@ MarkDown File; This file, a description of each file and folder required for run
 
 ### tk_code_builder.py
 
+    python tk_code_builder.py
+
 Graphical User Interface for blend_script.py. This file loads a client window written in Tkinter to allow users to select PartBlocks from the asl_encoding.py and pipe binary strings to the blender_script.py (which runs in a ```subprocess.Popen``` call).
 Renders which are placed in the ./tmp/ folder are converted into ```.gif``` files, either with ```sips``` (on mac) or with ```ImageMagick``` (on Windows) and loaded in the right pane.
